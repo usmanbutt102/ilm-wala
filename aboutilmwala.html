@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>About ilmWala | Our Mission & Free Study Resources</title>
+
+<meta name="description" content="Learn about ilmWala's mission to provide free, high-quality study material, notes, past papers, and guess papers for students across Pakistan.">
+
+<meta name="keywords" content="about ilmwala, ilmwala mission, free education pakistan, study resources, pakistan educational platform">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<link rel="stylesheet" href="aboutilmwala.css">
+<link rel="icon" type="image/png" href="./logo-removebg-preview.png">
+
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">ilmWala</div>
+    <nav class="nav-links">
+      <button class="close-btn"><i class="fas fa-times"></i></button>
+      <a href="index.html">Home</a>
+      <a href="easynotes.html">Easy Notes</a>
+      <a href="pastpapers.html">Past Papers</a>
+      <a href="guesspapers.html">Guess Papers</a>
+      <a href="textbooks.html" class="active">Textbooks</a>
+      <a href="aboutilmwala.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="moreoptions.html">More</a>
+    </nav>
+    <button class="menu-btn"><i class="fas fa-bars"></i></button>
+  </header>
+
+<main>
+
+  <section class="hero">
+    <h1>About IlmWala</h1>
+    <p>IlmWala is Pakistan's leading educational platform dedicated to providing free, high-quality study material for students of all classes. Learn, practice, and excel with our curated resources.</p>
+  </section>
+
+
+  <section class="about">
+    <h2>Our Mission & Vision</h2>
+    <p>We aim to make learning easy and accessible for everyone. IlmWala curates resources like blogs, articles, textbooks, past papers, guess papers, math formulas, pairing schemes, and English schemes to help students prepare efficiently.</p>
+    <p>With a student-friendly interface and organized categories, we ensure that all material is easy to find, download, and use. Our goal is to empower students with knowledge and confidence for better exam performance.</p>
+    <div class="about-stats">
+      <div>
+        <h4>10,000+</h4>
+        <p>Resources</p>
+      </div>
+      <div>
+        <h4>50,000+</h4>
+        <p>Active Users</p>
+      </div>
+      <div>
+        <h4>8+ Years</h4>
+        <p>Trusted by Students</p>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="why-choose">
+    <h2>Why Choose IlmWala?</h2>
+    <p>IlmWala is trusted by thousands of students across Pakistan because of its quality, reliability, and accessibility.</p>
+    <ul>
+      <li>Free and high-quality study material</li>
+      <li>All subjects and classes covered</li>
+      <li>Easy-to-use website interface</li>
+      <li>Updated content with latest syllabus</li>
+      <li>Trusted by students and teachers alike</li>
+    </ul>
+  </section>
+
+  <section class="comments" id="reviews">
+    <h2>💬 Student Feedback</h2>
+    <div class="comment-list" id="commentList"></div>
+
+    <form id="commentForm">
+      <input type="text" id="username" placeholder="Your Name" required />
+      <textarea id="userComment" placeholder="Your Comment" required rows="3"></textarea>
+      <button type="submit">Add Comment</button>
+    </form>
+  </section>
+
+</main>
+<footer class="footer">
+  &copy; 2025 IlmWala. All Rights Reserved.
+</footer>
+
+<div class="overlay"></div>
+
+<script>
+  const menuBtn = document.querySelector('.menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    const closeBtn = document.querySelector('.close-btn');
+    const overlay = document.querySelector('.overlay');
+
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.add('open');
+      overlay.classList.add('show');
+    });
+    closeBtn.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      overlay.classList.remove('show');
+    });
+    overlay.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      overlay.classList.remove('show');
+    });
+
+    let comments = [
+      { author: "Ayesha Khan", text: "IlmWala past papers helped me improve my Physics marks!" },
+      { author: "Bilal Ahmed", text: "Very clear and accurate past papers. Excellent resource!" },
+      { author: "Sana Malik", text: "Love how all papers are organized class-wise." }
+    ];
+    let stored = JSON.parse(localStorage.getItem("userComments")) || [];
+    comments = [...stored, ...comments];
+
+    function renderComments() {
+      const list = document.getElementById("commentList");
+      list.innerHTML = "";
+      comments.forEach(c => {
+        const div = document.createElement("div");
+        div.className = "comment";
+        div.innerHTML = `<div class="author">${c.author}</div><div class="text">${c.text}</div><button class='like-btn'>Like</button>`;
+        list.appendChild(div);
+      });
+    }
+    renderComments();
+
+    document.getElementById("commentForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const name = username.value.trim();
+      const text = userComment.value.trim();
+      if (name && text) {
+        const newC = { author: name, text };
+        comments.unshift(newC);
+        stored.unshift(newC);
+        localStorage.setItem("userComments", JSON.stringify(stored));
+        renderComments();
+        e.target.reset();
+      }
+    });
+
+    document.getElementById("commentList").addEventListener("click", e => {
+      if (e.target.classList.contains("like-btn")) {
+        e.target.classList.toggle("liked");
+        e.target.textContent = e.target.classList.contains("liked") ? "Liked" : "Like";
+      }
+    });
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Contact IlmWala | Get Help & Support</title>
+
+<meta name="description" content="Have a question? Contact the ilmWala team. Submit your message, and we'll reply. Get support for notes, past papers, and more.">
+
+<meta name="keywords" content="contact ilmwala, ilmwala support, ask question, ilmwala help">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<link rel="stylesheet" href="contact.css">
+
+<link rel="icon" type="image/png" href="./logo-removebg-preview.png">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">ilmWala</div>
+    <nav class="nav-links">
+      <button class="close-btn"><i class="fas fa-times"></i></button>
+      <a href="index.html">Home</a>
+      <a href="easynotes.html">Easy Notes</a>
+      <a href="pastpapers.html">Past Papers</a>
+      <a href="guesspapers.html">Guess Papers</a>
+      <a href="textbooks.html" class="active">Textbooks</a>
+      <a href="aboutilmwala.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="moreoptions.html">More</a>
+    </nav>
+    <button class="menu-btn"><i class="fas fa-bars"></i></button>
+  </header>
+
+<main>
+
+  <section class="hero">
+    <h1>Contact Us</h1>
+    <p>Submit your question and we will answer directly below. All messages are saved locally so you can continue anytime.</p>
+  </section>
+
+  <section class="contact">
+    
+    <div class="contact-form-container">
+      <h2>Send a Message</h2>
+      <form class="contact-form" id="contactForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <textarea id="message" placeholder="Type your message..." rows="4" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+
+    <div class="chat-container">
+      <h2>Your Chat History</h2>
+      <div class="chat-box" id="chatBox">
+        </div>
+    </div>
+
+  </section>
+
+</main>
+<footer class="footer">
+    <i class="fab fa-facebook-f" aria-hidden="true"></i>
+    <i class="fab fa-twitter" aria-hidden="true"></i>
+    <i class="fab fa="instagram" aria-hidden="true"></i>
+    <i class="fab fa-youtube" aria-hidden="true"></i>
+    <p>&copy; 2025 IlmWala. All rights reserved.</p>
+</footer>
+
+<div class="overlay"></div>
+
+<script>
+
+  const menuBtn = document.querySelector('.menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    const closeBtn = document.querySelector('.close-btn');
+    const overlay = document.querySelector('.overlay');
+
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.add('open');
+      overlay.classList.add('show');
+    });
+    closeBtn.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      overlay.classList.remove('show');
+    });
+    overlay.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      overlay.classList.remove('show');
+    });
+
+
+ let messages = JSON.parse(localStorage.getItem("ilmwalaChat")) || [];
+  const chatBox = document.getElementById("chatBox");
+
+  function renderMessages(){
+    chatBox.innerHTML = "";
+    
+    
+    if (messages.length === 0) {
+      chatBox.innerHTML = '<p class="empty-chat">Your chat history is empty.</p>';
+      return;
+    }
+
+    messages.forEach((msg, index)=>{
+      const card = document.createElement("div");
+      card.classList.add("message-card");
+      card.classList.add(msg.type); 
+      
+      
+      const safeText = msg.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      const safeName = msg.name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+      card.innerHTML = `
+        <div class="author">${safeName}</div>
+        <div class="text">${safeText}</div>
+        ${msg.type === 'user' ? `<button class="reply-btn" data-index="${index}">Reply (Admin)</button>` : ""}
+        <div class="reply-container"></div>
+      `;
+      chatBox.appendChild(card);
+    });
+  }
+  renderMessages();
+
+
+  const form = document.getElementById("contactForm");
+  form.addEventListener("submit", e=>{
+    e.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const text = document.getElementById("message").value.trim();
+    if(name && email && text){
+      messages.push({type:"user",name,text,email,date:new Date().toLocaleString()});
+      localStorage.setItem("ilmwalaChat", JSON.stringify(messages));
+      form.reset();
+      renderMessages();
+    }
+  });
+
+
+  chatBox.addEventListener("click", e=>{
+    if(e.target.classList.contains("reply-btn")){
+      const idx = e.target.dataset.index;
+      const replyContainer = e.target.nextElementSibling;
+      if(replyContainer.innerHTML === ""){
+        replyContainer.innerHTML = `
+          <form class="reply-form">
+            <input type="text" placeholder="Type admin reply..." required>
+            <button type="submit">Send</button>
+          </form>
+        `;
+      } else {
+        replyContainer.innerHTML = ""; 
+      }
+    }
+  });
+
+
+  chatBox.addEventListener("submit", e=>{
+    e.preventDefault();
+    if(e.target.classList.contains("reply-form")){
+      const input = e.target.querySelector("input");
+      const replyText = input.value.trim();
+      if(replyText){
+        const parentCard = e.target.closest(".message-card");
+        const idx = Array.from(chatBox.children).indexOf(parentCard);
+        // Note: Naya message "admin" type se add ho raha hai
+        messages.push({type:"admin",name:"IlmWala Admin",text:replyText,date:new Date().toLocaleString()});
+        localStorage.setItem("ilmwalaChat", JSON.stringify(messages));
+        renderMessages(); // Chat ko refresh karo
+      }
+    }
+  });
+
+</script>
+
+</body>
+</html>

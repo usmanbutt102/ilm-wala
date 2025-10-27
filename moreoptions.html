@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>More Learning Resources - Free Study Material | ilmWala</title>
+  <meta name="description" content="Explore more free study materials at ilmWala including pairing schemes, study tips, math formulas, and exam tricks for students of Class 9 and 10." />
+  <meta name="keywords" content="ilmwala, more options, study tips, pairing schemes, formulas, exam tricks, notes, mcqs" />
+  <meta name="author" content="ilmWala" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="moreoptions.css" />
+  <link rel="icon" type="image/png" href="./logo-removebg-preview.png">
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="logo">ilmWala</div>
+    <nav class="nav-links">
+      <button class="close-btn"><i class="fas fa-times"></i></button>
+      <a href="index.html">Home</a>
+      <a href="easynotes.html">Easy Notes</a>
+      <a href="pastpapers.html">Past Papers</a>
+      <a href="guesspapers.html">Guess Papers</a>
+      <a href="textbooks.html">Textbooks</a>
+      <a href="aboutilmwala.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="moreoptions.html" class="active">More</a>
+    </nav>
+    <button class="menu-btn"><i class="fas fa-bars"></i></button>
+  </header>
+
+  <section class="hero">
+    <h1>Explore More Resources</h1>
+    <p>Find all additional ilmWala learning resources such as study tips, pairing schemes, English schemes, and helpful blogs. All material is 100% free and downloadable for Class 9 and Class 10 students.</p>
+  </section>
+
+  <section class="categories">
+    <h2>Choose a Category</h2>
+    <div class="category-grid">
+      <div class="category-card" onclick="alertworking()"><i class="fas fa-book"></i><span>Blogs / Articles</span></div>
+      <div class="category-card" onclick="alertworking()"><i class="fas fa-square-root-alt"></i><span>Math Formulas</span></div>
+      <div class="category-card" onclick="alertworking()"><i class="fas fa-file-alt"></i><span>Pairing Schemes</span></div>
+      <div class="category-card" onclick="alertworking()"><i class="fas fa-file-signature"></i><span>English Schemes</span></div>
+      <div class="category-card" onclick="alertworking()"><i class="fas fa-chalkboard-teacher"></i><span>Study Tips</span></div>
+      <div class="category-card" onclick="alertworking()"><i class="fas fa-lightbulb"></i><span>Exam Tricks</span></div>
+      <div class="category-card" onclick="alertworking()"><i class="fas fa-question-circle"></i><span>MCQ Practice</span></div>
+      <div class="category-card" onclick="alertworking()"><i class="fas fa-video"></i><span>Video Tutorials</span></div>
+    </div>
+  </section>
+
+  <section class="comments" id="reviews">
+    <h2>💬 Student Feedback</h2>
+    <div class="comment-list" id="commentList"></div>
+
+    <form id="commentForm">
+      <input type="text" id="username" placeholder="Your Name" required />
+      <textarea id="userComment" placeholder="Your Comment" required rows="3"></textarea>
+      <button type="submit">Add Comment</button>
+    </form>
+  </section>
+
+  <footer class="footer">
+    <div class="social-icons">
+      <i class="fab fa-facebook-f"></i>
+      <i class="fab fa-twitter"></i>
+      <i class="fab fa-instagram"></i>
+      <i class="fab fa-youtube"></i>
+    </div>
+    <p>&copy; 2025 IlmWala. All rights reserved.</p>    
+  </footer>
+
+  <div class="overlay"></div>
+
+  <script>
+    const menuBtn = document.querySelector(".menu-btn");
+    const navLinks = document.querySelector(".nav-links");
+    const closeBtn = document.querySelector(".close-btn");
+    const overlay = document.querySelector(".overlay");
+
+    menuBtn.addEventListener("click", () => {
+      navLinks.classList.add("open");
+      overlay.classList.add("show");
+    });
+
+    closeBtn.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+      overlay.classList.remove("show");
+    });
+
+    overlay.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+      overlay.classList.remove("show");
+    });
+
+    function alertworking() {
+      alert("We are working on this feature — coming soon!");
+    }
+        let comments = [
+      { author: "Ayesha Khan", text: "IlmWala past papers helped me improve my Physics marks!" },
+      { author: "Bilal Ahmed", text: "Very clear and accurate past papers. Excellent resource!" },
+      { author: "Sana Malik", text: "Love how all papers are organized class-wise." }
+    ];
+    let stored = JSON.parse(localStorage.getItem("userComments")) || [];
+    comments = [...stored, ...comments];
+
+    function renderComments() {
+      const list = document.getElementById("commentList");
+      list.innerHTML = "";
+      comments.forEach(c => {
+        const div = document.createElement("div");
+        div.className = "comment";
+        div.innerHTML = `<div class="author">${c.author}</div><div class="text">${c.text}</div><button class='like-btn'>Like</button>`;
+        list.appendChild(div);
+      });
+    }
+    renderComments();
+
+    document.getElementById("commentForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const name = username.value.trim();
+      const text = userComment.value.trim();
+      if (name && text) {
+        const newC = { author: name, text };
+        comments.unshift(newC);
+        stored.unshift(newC);
+        localStorage.setItem("userComments", JSON.stringify(stored));
+        renderComments();
+        e.target.reset();
+      }
+    });
+
+    document.getElementById("commentList").addEventListener("click", e => {
+      if (e.target.classList.contains("like-btn")) {
+        e.target.classList.toggle("liked");
+        e.target.textContent = e.target.classList.contains("liked") ? "Liked" : "Like";
+      }
+    });
+
+  </script>
+</body>
+</html>

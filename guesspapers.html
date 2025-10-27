@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Guess Papers for Class 9 & 10 - Free PDF | ilmWala</title>
+
+  <meta name="description" content="Download free Guess Papers for Class 9 and Class 10. All subjects guess papers for the latest syllabus to help you prepare for your exams.">
+  <meta name="keywords" content="guess papers, class 9 guess papers, class 10 guess papers, ilmWala guess papers, free guess papers pdf">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="guesspapers.css" />
+  <link rel="icon" type="image/png" href="./logo-removebg-preview.png">
+</head>
+<body>
+<header class="navbar">
+    <div class="logo">ilmWala</div>
+    <nav class="nav-links">
+      <button class="close-btn"><i class="fas fa-times"></i></button>
+      <a href="index.html">Home</a>
+      <a href="easynotes.html">Easy Notes</a>
+      <a href="pastpapers.html">Past Papers</a>
+      <a href="guesspapers.html">Guess Papers</a>
+      <a href="textbooks.html" class="active">Textbooks</a>
+      <a href="aboutilmwala.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="moreoptions.html">More</a>
+    </nav>
+    <button class="menu-btn"><i class="fas fa-bars"></i></button>
+  </header>
+  <section class="hero">
+    <h1>IlmWala Guess Papers</h1>
+    <p>
+      Here you can find all the guess papers free from here. All the material on this website is freely available for exam preparation. You can download it and prepare for the exams. The latest syllabus guess papers for all subjects are uploaded here.
+    </p>
+  </section>
+
+  <section class="classes">
+    <h2>Select Your Class</h2>
+    <div class="class-grid">
+      <a href="#" onclick="alertWorking(); return false;">
+        <div class="class-card">
+          <i class="fas fa-user-graduate"></i>
+          <span>Class 9 Guess Papers</span>
+        </div>
+      </a>
+      <a href="#" onclick="alertWorking(); return false;">
+        <div class="class-card">
+          <i class="fas fa-user-graduate"></i>
+          <span>Class 10 Guess Papers</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="comments" id="reviews">
+    <h2>💬 Student Feedback</h2>
+    <div class="comment-list" id="commentList"></div>
+
+    <form id="commentForm">
+      <h3>Add Your Comment</h3>
+      <input type="text" id="username" placeholder="Your Name" required />
+      <textarea id="userComment" placeholder="Your Comment" required rows="3"></textarea>
+      <button type="submit">Add Comment</button>
+    </form>
+  </section>
+
+  <footer class="footer">
+    <div class="social-icons">
+      <i class="fab fa-facebook-f"></i>
+      <i class="fab fa-twitter"></i>
+      <i class="fab fa-instagram"></i>
+      <i class="fab fa-youtube"></i>
+    </div>
+    <p>&copy; 2025 IlmWala. All rights reserved.</p>
+  </footer>
+
+  <div class="overlay"></div>
+
+  <script>const menuBtn = document.querySelector('.menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    const closeBtn = document.querySelector('.close-btn');
+    const overlay = document.querySelector('.overlay');
+
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.add('open');
+      overlay.classList.add('show');
+    });
+    closeBtn.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      overlay.classList.remove('show');
+    });
+    overlay.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      overlay.classList.remove('show');
+    });
+
+
+    function alertWorking() {
+      alert('We are working on it, please wait.');
+    }
+
+    let comments = [
+      { author: 'Ayesha Khan', text: 'IlmWala guess papers are fantastic! Helped me in Physics and Chemistry.' },
+      { author: 'Bilal Ahmed', text: 'Mathematics guess papers are clear and easy to understand, love the examples.' },
+      { author: 'Sana Malik', text: 'I like how IlmWala uploads the latest syllabus guess papers. Very helpful!' }
+    ];
+
+    let storedComments = JSON.parse(localStorage.getItem('userComments')) || [];
+    comments = [...storedComments, ...comments];
+
+    function renderComments() {
+      const list = document.getElementById('commentList');
+      list.innerHTML = '';
+      comments.forEach(c => {
+        const div = document.createElement('div');
+        div.className = 'comment';
+        div.innerHTML = `<div class="author">${c.author}</div>
+                         <div class="text">${c.text}</div>
+                         <button class="like-btn">Like</button>`;
+        list.appendChild(div);
+      });
+    }
+    renderComments();
+
+    document.getElementById('commentList').addEventListener('click', e => {
+      if (e.target.classList.contains('like-btn')) {
+        e.target.classList.toggle('liked');
+        e.target.textContent = e.target.classList.contains('liked') ? 'Liked' : 'Like';
+      }
+    });
+
+    document.getElementById('commentForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = document.getElementById('username').value.trim();
+      const text = document.getElementById('userComment').value.trim();
+      if (name && text) {
+        const newComment = { author: name, text };
+        comments.unshift(newComment);
+        storedComments.unshift(newComment);
+        localStorage.setItem('userComments', JSON.stringify(storedComments));
+        renderComments();
+        e.target.reset();
+      }
+    });
+  </script>
+</body>
+</html>
